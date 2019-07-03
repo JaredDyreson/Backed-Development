@@ -11,4 +11,4 @@ This script also installs apache, phpmyadmin and django.
 ### External Links
 [video that was super helpful](https://www.youtube.com/watch?v=D6esTdOLXh4)
 [getting started with django linux article](https://www.digitalocean.com/community/tutorials/how-to-install-django-and-set-up-a-development-environment-on-ubuntu-16-04)
-
+[materializecss](https://materializecss.com/getting-started.html)
