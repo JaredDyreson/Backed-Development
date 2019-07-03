@@ -5,4 +5,5 @@ urlpatterns = [
     re_path(r'^$', include('posts.urls')),
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
+    path('videos/', include('videos.urls'))
 ]

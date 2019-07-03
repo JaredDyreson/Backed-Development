@@ -1,5 +1,9 @@
 from django.db import models
+from django.utils.html import escape
 from datetime import datetime
+import requests
+import json
+
 # Create your models here.
 
 class Posts(models.Model):

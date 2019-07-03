@@ -1,0 +1,17 @@
+{% extends 'videos/layout.html' %}
+
+{% block content %}
+
+<h3 class="center-align red lighten-3">{{video.title}}</h3>
+<div class="card">
+	<div class="card-content">
+		{{video.body}}
+	</div>
+	<div class="card-action">
+		{{video.created_at}}
+	</div>
+</div>
+<a href="/videos/" class="btn">Go Back</a>
+{% endblock %}
+
+
