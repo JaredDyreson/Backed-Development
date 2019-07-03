@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# install Python and PIP
+sudo apt-get update && sudo apt-get install python3.7 pip3 pip -y
+
+# installing phpmyadmin and other dependencies
+sudo apt install php7.0
+sudo apt install php7.0-cgi
+sudo apt install php7.0-gd
+sudo apt install php7.0-mysql
+sudo apt install mysql-server
+sudo apt install phpmyadmin
+sudo apt install libapache2-mod-php7.0
+sudo apt install apache2
+echo 'Include /etc/phpmyadmin/apache.conf' | sudo tee /etc/apache2/apache2.conf
+sudo /etc/init.d/apache2 restart
+
+function django_container_setup(){
+
+	# to be ran while in django environment
+	pip3 install django mysqlclient
+	# configure settings.py to include the correct database. 
+	# Here we want to use SQL instead of SQLite, so please refer to the django projects folder and under "testsite" for an example of this.
+
+}
+
