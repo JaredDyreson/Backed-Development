@@ -18,6 +18,7 @@ class v_{
         v_<T>() : v_<T>(MIN_SIZE){}
         v_<T>(size_t c) : size_(0), capacity_(c), token_(0), data_(new T[c]){}
         v_<T>& operator=(const v_<T>& copy);
+        v_<T>(const v_<T>& c) : data_(nullptr) { copy(c); }
         ~v_();
         // getters
         size_t size() const;
@@ -58,12 +59,12 @@ class v_{
 
 template <typename T>
 v_<T>& v_<T>::operator=(const v_<T>& input){
-    if(*this != &input) { copy(input); }
-    return this;
+    if(this != &input) { copy(input); }
+    return *this;
 }
 
 template <typename T>
-v_<T>::~v_(){ delete [] data_; data_ = nullptr; }
+v_<T>::~v_(){ delete [] data_;  }
 
 // getters
 template <typename T>
@@ -148,8 +149,8 @@ void test(){
     v_<size_t> b(a);
     if (a == b) { std::cout << "Both vectors are the same" << std::endl; }
     std::cout << "initial capacity: " <<  a.capacity() << std::endl;
-    //for(size_t i = 0; i < 25; ++i){
-      //  a.push_back(i);
-       // std::cout << a[i] << std::endl;
-   // }
+    for(size_t i = 0; i < 25; ++i){
+        a.push_back(i);
+        std::cout << a[i] << std::endl;
+    }
 }
