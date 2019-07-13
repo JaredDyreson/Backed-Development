@@ -22,7 +22,6 @@ class l_{
     // constructors and destructors
 
     l_() : size_(0), head_(nullptr), tail_(nullptr) {}
-    //~l_();
 
     // getters
 
@@ -53,13 +52,6 @@ class l_{
 
 // destructor
 
-//template <typename T>
-//l_<T>::~l_(){
-//    for(size_t i = 0; i < size_; ++i){ pop_back(); }
- //   delete head_;
-//    delete tail_;
-//    head_ = tail_ = nullptr;
-//}
 
 // getters
 
@@ -76,36 +68,23 @@ bool l_<T>::empty() const { return (size_ == 0) ? true : false; }
 
 template <typename T>
 void l_<T>::pop_back(){
-    node<T>* H = new node<T>;
-    node<T>* P = new node<T>;
-    H = P = head();
-    if(H == nullptr) { return; }
-
-    while(H->next_ != nullptr){ H = H->next_; }
-    delete H;
-    H->next_ = nullptr;
-    //H->previous_ = P;
-    size_--;
+	delete_position(size_);
 }
 
 template <typename T>
 void l_<T>::delete_position(size_t position){
-    node<T>* t = new node<T>;
-    if(head_ == nullptr) { return; }
-    else { t = head_; }
-    size_t counter_ = 0;
-    while(counter_ != position && t->next_ != nullptr){ 
-        t = t->next_;
-        counter_++; 
-    }
-    delete t;
-    t->next_ = t->previous_;
-    t-
-    size_--;
-//    node<T>* a = new node<T>(value);
-
-
-
+	node<T>* temp_ = head_;
+	if(head_ == nullptr) { return; }
+	size_t counter_ = 0;
+	while(counter_ < position && temp_->next_ != nullptr){
+		temp_ = temp_->next_;
+		++counter_;
+	}
+	node<T>* t = new node<T>;
+	t = temp_;
+	t->next_ = temp_->previous_;
+	t->previous_ = temp_->next_;
+	size_--;
 }
 //
 template <typename T>
@@ -113,26 +92,22 @@ void l_<T>::push_back(T value_){ insert_postion(size_, value_); }
 
 template <typename T>
 void l_<T>::insert_postion(size_t position, T value){
-    node<T>* a = new node<T>(value);
-    node<T>* t = new node<T>;
-    if(head_ == nullptr) {
-        head_ = tail_ = a;
-        delete t;
-        t = nullptr;
-        return; 
-    }
-    else { t = head_; }
-    size_t counter_ = 0;
-    while(counter_ != position && t->next_ != nullptr){ 
-        t = t->next_;
-        counter_++; 
-    }
-    t->next_ = a;
-    a->previous_ = t;
-    size_++;
-//    node<T>* a = new node<T>(value);
-
-
+	node<T>* node_insert_ = new node<T>(value);
+	node<T>* temp_ = head_;
+	if(head_ == nullptr) {
+		head_ = tail_ = node_insert_;
+		size_++;
+		return;
+	}
+	size_t counter_ = 0;
+	while(counter_ != position && temp_->next_ != nullptr){
+		temp_ = temp_->next_;
+		++counter_;
+	}
+	node_insert_->next_ = temp_->next_;
+	temp_->next_ = node_insert_;
+	temp_->next_->previous_ = node_insert_->next_;
+	size_++;
 }
 
 template <typename T>
@@ -185,11 +160,9 @@ void test_list(){
     if(a.empty()) { std::cout << "List is empty" << std::endl; }
     a.print();
     std::cout <<  "Current size before adding: " << a.size() << std::endl;
-    for(int i = 0; i < 5; ++i){
-       // a.insert_postion(i, i);
+    for(int i = 0; i < 11; ++i){
        a.push_back(i);
     }
-    a.push_back(5);
     std::cout <<  "Current size after adding: " << a.size() << std::endl;
     std::cout << "Printing...." << std::endl;
     a.print();
@@ -209,12 +182,10 @@ void test_list(){
         std::cerr << "Could not find node with value of 10" << std::endl;
     }
     std::cout << "Testing pop_back...." << std::endl;
-    a.pop_back();
-    std::cout << "Printing after pop_back...." << std::endl;
-    a.print_recursive(a.head());
-    std::cout << "SIZE: " << a.size() << std::endl;
-    for(size_t i = 0; i < a.size(); ++i) { 
-        a.pop_back();
-        a.print_recursive(a.head());
+    for(size_t i = 0; i < 11; i++){
+	    std::cout << "Size: " << a.size() << std::endl;
+	    a.print();
+	    a.pop_back();
     }
+    a.print();
 }
