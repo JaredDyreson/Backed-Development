@@ -1,87 +1,70 @@
 #!/usr/bin/env python3.5
 
-# HELPFUL LINKS
-
-# "overloading" __init__ -> https://stavshamir.github.io/python/2018/05/26/overloading-constructors-in-python.html
-
-# recursion in Python -> https://realpython.com/python-thinking-recursively/
-
-# All permutations in a list -> https://www.geeksforgeeks.org/generate-all-the-permutation-of-a-list-in-python/
-
-# Python Advanced: Graph Theory and other Graphs -> https://www.python-course.eu/graphs_python.php
-
+from graphs import graph, node
 from pprint import pprint as pp
 from itertools import permutations
-import math
 
-class node:
-	def __init__(self, label: str, w: list):
+class G:
+	def __init__(self, w: dict):
 		self.empty = False
-		self.matrix = w
-		if(len(w) == 0):
-			self.empty = True
-		self.token = 10
-		self.label_ = label
-	def recursive_token(self):
-		if(self.token == 0):
-			return
-		else:
-			self.token-=1
-			return self.recursive_token()
-
-
-class graph:
-	def __init__(self, l: list):
-		self.manifest = l
-	def p(self):
-		for n in self.manifest:
-			print(n.label_, n.matrix)
+		self.coordinates = w
 	def generate_edges(self):
-		return list(permutations(self.manifest))
+		edges = []
+		for vertex in self.coordinates:
+			for neighbour in self.coordinates[vertex]:
+				if({neighbour, vertex} not in edges):
+					edges.append({vertex, neighbour})
+		return edges
+		#return list(permutations(self.coordinates))
+	def verticies(self):
+		return [label for label in self.coordinates.keys()]
 	def get_isolated_nodes(self):
 		i = []
-		for element in a:
-			for e in element:
-				if(e.empty):
-					i.append(e)
+		for k, v in self.coordinates.items():
+			if(len(v) == 0):
+				i.append({k:v})
 		return i
-	def get_distance(self, initial, final):
-		# initial and final are two coordinate points
-		# assuming points are plotted in a real, cartesian plane
-		x_0 = initial[0]
-		y_0 = initial[1]
-		x_1 = final[0]
-		y_1 = final[1]
-		result = ((x_1-x_0)**2) + ((y_1-y_0)**2)
-		# this returns the maginitude of the vector between the two points using pythagorean theorem
-		return math.sqrt(result)
-
+	def find_paths(self, start, end, path_=None):
+		extended_path = ""
+		if(path_ is None):
+			path_ = []
+		path_ = path_ + [start]
+		if(start == end):
+			return path_
+		elif(start not in self.verticies()):
+			return None
+		for verticie in self.coordinates[start]:
+			if(verticie not in path_):
+				extended_path = self.find_paths(verticie,
+								end,
+								path_)
+			for path in extended_path:
+				path_.append(path)
+			return path_
+		return None
 
 e = [
-	node("A", ["c"]),
-	node("B", ["c", "e"]),
-	node("C", ["a", "b", "d", "e"]),
-	node("D", ["c"]),
-	node("E", ["c", "b"]),
-	node("F", [])
+	node("a", ["c"]),
+	node("b", ["c", "e"]),
+	node("c", ["a", "b", "d", "e"]),
+	node("d", ["c"]),
+	node("e", ["c", "b"]),
+	node("f", []),
 ]
 
 
+f = { "a" : ["d", "f"],
+      "b" : ["c"],
+      "c" : ["b", "c", "d", "e"],
+      "d" : ["a", "c"],
+      "e" : ["c"],
+      "f" : ["d"]
+}
+
+
 node_list = graph(e)
-node_list.p()
+n_ = G(f)
 
-
-# sample points
-V = ['a', 'b', 'c', 'd']
-
-# edges are all of the possible paths each node can have
-E = list(permutations(V))
-
-# conversely, this can be applied to other data types, such as our node class
-
-VN = list(permutations(e))
-
-a = node_list.generate_edges()
-labels = set(element.label_ for element in node_list.get_isolated_nodes())
-print(labels)
-print(node_list.get_distance((1, 3), (3, 4)))
+print("Verticies: {}".format(n_.verticies()))
+print("Edges: {}".format(n_.generate_edges()))
+print("Find paths: {}".format(n_.find_paths("a", "b")))
