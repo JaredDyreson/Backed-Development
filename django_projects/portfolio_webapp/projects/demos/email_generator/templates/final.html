@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: DodgerBlue;
+}
+
+div {
+  background-color: lightgrey;
+  width: 300px;
+  border: 15px solid blue;
+  padding: 50px;
+  margin: 20px;
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+
+</style>
+<script src="hello_world.js"></script>
+</head>
+
+<center>
+<div>
+<h1>Email Generator</h1>
+
+	<h2>Number: </h2> <input class="input-group-field" type="number" name="amount_of_emails" value="0">
+
+	<button type="button" onclick="hello()">Generate</button>
+
+</div>
+</center>
+</html>
